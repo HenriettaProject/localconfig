@@ -46,6 +46,14 @@ class LocalConfig(object):
             else:
                 return self._config.set(self._section, key, value)
 
+        def __contains__(self, key):
+            """
+            Determine if this section has specified attribute
+            
+            :param str key: Config key to look for
+            """
+            return (self._section, key) in self._config._dot_keys
+        
         def __iter__(self):
             return self._config.items(self._section)
 
@@ -355,6 +363,7 @@ class LocalConfig(object):
         """
         self._read_sources()
 
+        section = section.lower()
         if section in self._dot_keys:
             return self.SectionAccessor(self, section)
 
